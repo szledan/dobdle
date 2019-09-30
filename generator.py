@@ -45,6 +45,16 @@ card = first_card(cats, Es, 0)
 print("First card: {}".format(card))
 deck = [ card ]
 
+while len(deck) < Ks:
+    card = []
+    for x in range(1, num_cat + 1):
+        for y in range(x, num_cat + 1):
+            card.append(y)
+                while len(card) < Es:
+
+
+    deck.append(card)
+
 print("Deck: {}".format(deck))
 
 print("Generate a set of cards...")
