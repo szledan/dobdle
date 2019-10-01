@@ -2,6 +2,8 @@
 # -*- coding: utf-8 -*-
 
 import argparse
+from bisect import bisect_left
+import copy
 import csv
 
 def add_args(parser):
@@ -18,9 +20,21 @@ def get_args():
 
     return parser.parse_args()
 
+
 def first_card(cats, es, strategy = 0):
     if strategy == 0:
         return [ x + 1 for x in range(es) ]
+
+
+def criteria(dck, card):
+    match = 0
+    for e in card:
+        for crd in dck:
+            if bisect_left(crd, e):
+                match += 1
+                if match > 1:
+                    return False
+    return True
 
 
 args = get_args()
@@ -29,15 +43,18 @@ num_cat = 0
 Ks = args.cards
 Es = args.elements
 cats = {}
+IDs = []
 with open(args.categories) as csv_file:
     csv_reader = csv.reader(csv_file, delimiter=',')
     for row in csv_reader:
-        cats[row[0]] = row[1]
+        IDs.append(int(row[0]))
+        cats[int(row[0])] = row[1]
         num_cat += 1
 
 print(cats)
 
 print("List of categories: {}, ({} rows)".format(args.categories, num_cat))
+print("  IDs: {}".format(IDs))
 print("Number of cards: {}".format(Ks))
 print("Number of elements on a card: {}".format(Es))
 
@@ -45,13 +62,14 @@ card = first_card(cats, Es, 0)
 print("First card: {}".format(card))
 deck = [ card ]
 
-while len(deck) < Ks:
+while len(deck) < 2:#Ks:
     card = []
-    for x in range(1, num_cat + 1):
-        for y in range(x, num_cat + 1):
-            card.append(y)
-                while len(card) < Es:
+    ids = copy.deepcopy(IDs)
 
+    while len(card) < Es:
+        while len(ids) > 0:
+                return True
+            card.append(ids.pop(0))
 
     deck.append(card)
 
